@@ -30,10 +30,11 @@ visited = [False] * 9
 
 bfs(graph, 1, visited)
 
+#BFS + 며칠동안 예제
+
 #백준 - 16234 https://www.acmicpc.net/problem/16234
 
-# 2차원 배열에서 "며칠동안 ~ "과 같은 count를 해야하는 문제가 나오면 
-# 앞서서 나온 예시처럼 visited를 숫자를 사용해 구현하면 된다.
+# visited를 새로운 2차원 배열로 구현 후 어느 나라가 연합됐었는지 확인.
 
 n, l, r = map(int, input().split())
 
@@ -82,3 +83,58 @@ while True:
         break 
     answer += 1
 
+# 백준 - 7576 https://www.acmicpc.net/problem/7576
+
+# 맨 처음 익은 토마토를 0으로 그 다음 익은 토마토 바로 옆에서 익은 토마토를 time + 1 해서 
+# 모든 토마토가 익을 때까지 얼마나 걸리는지 계산
+
+m, n= map(int, input().split())
+
+blocks = []
+ripe = []
+for i in range(n):
+    blocks.append(list(map(int, input().split())))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+                    
+def bfs(arr):
+    answer = 0
+    q = deque()
+    for dist in arr:
+        q.append(dist)
+    while q:
+        x, y, time = q.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                continue
+            if blocks[nx][ny] == -1:
+                continue
+            if blocks[nx][ny] == 0:
+                blocks[nx][ny] = 1
+                q.append((nx, ny, time + 1))
+                answer = max(answer, time + 1)
+    return answer
+
+status = 0
+
+for j in range(n):
+    for k in range(m):
+        if blocks[j][k] == 1:
+            ripe.append((j, k, 0))
+        if blocks[j][k] == 0:
+            status += 1
+
+if status == 0:
+    print(0)
+else:
+    result = bfs(ripe)
+    for j in range(n):
+        for k in range(m):
+            if blocks[j][k] == 0:
+                result = -1
+    print(result)   
+
+            
