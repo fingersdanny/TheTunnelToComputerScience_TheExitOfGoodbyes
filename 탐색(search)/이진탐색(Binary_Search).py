@@ -5,12 +5,37 @@
 
 def binary_search(start, end, arr, target):
     while start <= end:
-        mid = start + end // 2
-        if arr[mid] == target:
+        mid = (start + end) // 2  #중간점
+        if arr[mid] == target:  # 중간점이 target과 같은 경우
             index = mid
             break
-        if arr[mid] > target:
+        if arr[mid] > target:   # 중간점보다 작은 경우
             end = mid - 1
-        if arr[mid] < target:
+        if arr[mid] < target:   # 중간점 보다 큰 경우
             start = mid + 1
     return index
+
+#이진탐색 심화 : Lower Bound, Upper Bound
+
+#Lower Bound: target 값이 맨 처음 나오는 인덱스 반환
+
+def lower_bound(start, end, arr, target):
+    while start <= end:
+        mid = (start + end) // 2
+        if arr[mid] < target:
+            start = mid + 1
+        else:
+            end = mid - 1
+    return start
+
+#Upper Bound: target 값 보다 큰 값이 처음 나오는 인덱스 반환
+
+def upper_bound(start, end, arr, target):
+    while start <= end:
+        mid = (start + end) // 2
+        if arr[mid] <= target:
+            start = mid + 1
+        else:
+            end = mid - 1
+    return start
+
