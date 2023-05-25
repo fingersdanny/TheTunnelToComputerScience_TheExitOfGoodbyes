@@ -1,11 +1,11 @@
-//python에서는 tuple로 사용해!!!!!!!!!
+// python에서는 tuple로 사용해!!!!!!!!!
 // BFS에서 LinkedList와 같이 써서 구현
 // Dijkstra에서는 PriorityQueue와 같이 써서 구현
 
 class Node implements Comparable<Node> {
     private int x;
     private int y;
-    private int distance
+    private int distance;
 
     public Node(int x, int y, int distance) {
         this.x = x;
