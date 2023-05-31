@@ -1,6 +1,6 @@
-import java.util.*;
+import java.util.ArrayList;
 
-class 조합론 {
+public class 조합론 {
     static int[] arr; // 뽑을 배열
     static int n; // 기준 배열 길이
     static int perCount; // 순열 갯수
@@ -8,6 +8,27 @@ class 조합론 {
     static int comCount; // 조합 갯수
     static int dupComCount; // 중복 조합 갯수
     static int num; // 뽑을 갯수
+
+    public static void main(String[] args) {
+        arr = new int[] {1,2,3,4};
+		n = arr.length;
+		num = 2;
+		
+		permutation(new ArrayList<Integer>(), num);
+		System.out.println("[순열 갯수] " + perCount);
+		System.out.println("-------------------");
+		
+		permutationWithR(new ArrayList<Integer>(), num);
+		System.out.println("[중복순열 갯수] " + dupPerCount);
+		System.out.println("-------------------");
+		
+		combination(new ArrayList<Integer>(), 0, num);
+		System.out.println("[조합 갯수] " + comCount);
+		System.out.println("-------------------");
+		
+		combinationWithR(new ArrayList<Integer>(), 0, num);
+		System.out.println("[중복조합 갯수] " + dupComCount);
+    }
 
     // 1. 순열 : 서로 다른 n 개 중에 r개를 선택하는 경우의 수
     // 순서가 존재한다.
@@ -42,7 +63,7 @@ class 조합론 {
         for (int i = 0; i < n; i++) {
             // 순열과 달리 리스트에 포함되어 있는지 확인하지 않아도 된다.
             list.add(arr[i]);
-            permutation(list, count - 1); // 뽑을 때 마다 count - 1;
+            permutationWithR(list, count - 1); // 뽑을 때 마다 count - 1;
             list.remove(list.size() - 1); // 재귀 위해서 마지막에 넣은 원소 제거;
         }
     }
@@ -72,8 +93,7 @@ class 조합론 {
     public static void combinationWithR(ArrayList<Integer> list, int index, int count) {
         // 다 뽑았을 때
         if (count == 0) {
-            System.out.println(dupComCount);
-            // System.out.println(list);
+            System.out.println(list);
             dupComCount++;
             return;
         }
@@ -81,29 +101,8 @@ class 조합론 {
         for (int i = index; i < n; i++) {
             list.add(arr[i]);
             // 자기 자신부터 다시 재귀
-            combination(list, i, count - 1); // 뽑을 때 마다 count - 1;
+            combinationWithR(list, i, count - 1); // 뽑을 때 마다 count - 1;
             list.remove(list.size() - 1); //재귀 위해 마지막에 넣은 원소 제거
         }
-    }
-
-    public static void main(String[] args) {
-        arr = new int[] {1,2,3,4};
-		n = arr.length;
-		num = 2;
-		
-		permutation(new ArrayList<Integer>(), num);
-		System.out.println("[순열 갯수] " + perCount);
-		System.out.println("-------------------");
-		
-		permutationWithR(new ArrayList<Integer>(), num);
-		System.out.println("[중복순열 갯수] " + dupPerCount);
-		System.out.println("-------------------");
-		
-		combination(new ArrayList<Integer>(), 0, num);
-		System.out.println("[조합 갯수] " + comCount);
-		System.out.println("-------------------");
-		
-		combinationWithR(new ArrayList<Integer>(), 0, num);
-		System.out.println("[중복조합 갯수] " + dupComCount);
     }
 }
