@@ -1,66 +1,109 @@
-// 조합 : n개의 숫자 중에서 r개의 수를 순서 없이 뽑는 경우
-// 2개를 뽑는다 하면 아래와 같다
-// [1, 2, 3] -> [1, 2], [2, 3], [1, 3]
+import java.util.*;
 
-class 조합론 { 
-    // 1. 백트래킹을 이용한 조합 구현
-    static void comb1(int[] arr, boolean[] visited, int start, int r) {
-        if (r == 0) {
-            print(arr, visited);
-            return; 
-        } else {
-            for (int i = start; i < arr.length; i++) {
-                visited[i] = true;
-                comb1(arr, visited, i + 1, r - 1);
-                visited[i] = false;
-            }
+class 조합론 {
+    static int[] arr; // 뽑을 배열
+    static int n; // 기준 배열 길이
+    static int perCount; // 순열 갯수
+    static int dupPerCount; // 중복 순열 갯수
+    static int comCount; // 조합 갯수
+    static int dupComCount; // 중복 조합 갯수
+    static int num; // 뽑을 갯수
+
+    // 1. 순열 : 서로 다른 n 개 중에 r개를 선택하는 경우의 수
+    // 순서가 존재한다.
+    // 경우의 수 : n! / (n - r)!
+    public static void permutation(ArrayList<Integer> list, int count) {
+        //다 뽑았을때
+        if (count == 0) {
+            System.out.println(list);
+            perCount++;
+            return;
+        } 
+
+        for (int i = 0; i < n; i++) {
+            if (list.contains(arr[i])) continue;
+            list.add(arr[i]);
+            permutation(list, count - 1); // 뽑을 때 마다 count - 1;
+            list.remove(list.size() - 1); // 재귀 위해서 마지막에 넣은 원소 제거;
         }
     }
 
-    // 2. 재귀를 이용한 조합 구현
-    static void comb2(int[] arr, boolean[] visited, int depth, int r) {
-        if (r == 0) {
-            print(arr, visited);
-            return; 
-        } 
-        if (depth == arr.length) {
+    // 2. 중복 순열 : n개 중에 r개를 선택하는 경우의 수 
+    // 순서가 존재한다
+    // 경우의 수 : n ^ r
+    public static void permutationWithR(ArrayList<Integer> list, int count) {
+        //다 뽑았을때
+        if (count == 0) {
+            System.out.println(list);
+            dupPerCount++;
             return;
         }
-        else {
-            visited[depth] = true;
-            comb2(arr, visited, depth + 1, r - 1);
 
-            visited[depth] = false;
-            comb2(arr, visited, depth + 1, r);
+        for (int i = 0; i < n; i++) {
+            // 순열과 달리 리스트에 포함되어 있는지 확인하지 않아도 된다.
+            list.add(arr[i]);
+            permutation(list, count - 1); // 뽑을 때 마다 count - 1;
+            list.remove(list.size() - 1); // 재귀 위해서 마지막에 넣은 원소 제거;
         }
     }
 
-    // 3. 중복 조합 (자기 자신을 중복하여 뽑을 수 있다.) [1, 2, 3] -> 
-
-    static void print(int[] arr, boolean[] visited) {
-        for(int i = 0; i < arr.length; i++) {
-            if(visited[i])
-                System.out.print(arr[i] + " ");
+    // 3. 조합 : 서로 다른 n개 중에 r개를 선택하는 경우의 수
+    // 순서가 존재하지 않는다.
+    // 경우의 수 : n! / r! * (n - r)!
+    public static void combination(ArrayList<Integer> list, int index, int count) {
+        //다 뽑았을때
+        if (count == 0) {
+            System.out.println(list);
+            comCount++;
+            return;
         }
-        System.out.println();
+
+        for (int i = index; i < n; i++) {
+            list.add(arr[i]);
+            combination(list, i + 1, count - 1); // 뽑을 때 마다 count - 1;
+            list.remove(list.size() - 1); //재귀 위해 마지막에 넣은 원소 제거
+        }
+    }
+
+
+    // 4. 중복 조합 : n개 중에 r개를 선택하는 경우의 수 
+    // 순서가 존재하지 않는다.
+    // 경우의 수 : (r + (n - 1))! / r! * (n - 1)!
+    public static void combinationWithR(ArrayList<Integer> list, int index, int count) {
+        // 다 뽑았을 때
+        if (count == 0) {
+            System.out.println(dupComCount);
+            // System.out.println(list);
+            dupComCount++;
+            return;
+        }
+
+        for (int i = index; i < n; i++) {
+            list.add(arr[i]);
+            // 자기 자신부터 다시 재귀
+            combination(list, i, count - 1); // 뽑을 때 마다 count - 1;
+            list.remove(list.size() - 1); //재귀 위해 마지막에 넣은 원소 제거
+        }
     }
 
     public static void main(String[] args) {
-        int[] arr = {1, 2, 3};
-        boolean[] visited = new boolean[arr.length];
-
-        System.out.println("1. 백트래킹을 이용한 구현");
-
-        for (int r = 1; r <= arr.length; r++) {
-            System.out.println("\n" + arr.length + "개 중에 " + r + "개 뽑음");
-            comb1(arr, visited, 0, r);
-        }
-
-        System.out.println("2. 재귀를 이용한 구현");
-
-        for (int r = 1; r <= arr.length; r++) {
-            System.out.println("\n" + arr.length + "개 중에 " + r + "개 뽑음");
-            comb2(arr, visited, 0, r);
-        }
+        arr = new int[] {1,2,3,4};
+		n = arr.length;
+		num = 2;
+		
+		permutation(new ArrayList<Integer>(), num);
+		System.out.println("[순열 갯수] " + perCount);
+		System.out.println("-------------------");
+		
+		permutationWithR(new ArrayList<Integer>(), num);
+		System.out.println("[중복순열 갯수] " + dupPerCount);
+		System.out.println("-------------------");
+		
+		combination(new ArrayList<Integer>(), 0, num);
+		System.out.println("[조합 갯수] " + comCount);
+		System.out.println("-------------------");
+		
+		combinationWithR(new ArrayList<Integer>(), 0, num);
+		System.out.println("[중복조합 갯수] " + dupComCount);
     }
 }
