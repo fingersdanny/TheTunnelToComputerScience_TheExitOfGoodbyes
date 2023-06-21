@@ -1,3 +1,5 @@
+from collections import deque
+
 # 완벽한 괄호 문자열 확인 (Valid Parentheses Check) : "(" 와 ")" 의 개수가 같고 짝도 모두 맞을 경우
 def valid(string):
     # "()"이 string 안에 있는 동안
@@ -12,7 +14,22 @@ def valid(string):
     # string에 문자열이 남아 있다면
     else:
         return False
+
+
+# 그러나 위와 같이 구현한다면 문자열이 길어지거나 하면 시간 초과가 날 수 있기 때문에 스택을 사용하자.
+def valid_with_stack(string):
+    q = deque()
+    for i in len(string):
+        if not q:
+            q.append(string[i])
+        if q:
+            if q[-1] == "(" and string[i] == ")":
+                q.pop()
     
+    if q:
+        return False
+    else:
+        return True
 
 #균형 잡힌 괄호 문자열 확인 (Baanced Parentheses Check): "(" 와 ")"의 개수가 같은 경우
 def balanced(string):
