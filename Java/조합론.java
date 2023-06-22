@@ -8,9 +8,11 @@ public class 조합론 {
     static int comCount; // 조합 갯수
     static int dupComCount; // 중복 조합 갯수
     static int num; // 뽑을 갯수
+    static ArrayList<Integer> perList;
 
     public static void main(String[] args) {
         arr = new int[] {1,2,3,4};
+        perList = Arrays.stream(ints).boxed().collect(Collectors.toList());
 		n = arr.length;
 		num = 2;
 		
@@ -42,10 +44,11 @@ public class 조합론 {
         } 
 
         for (int i = 0; i < n; i++) {
-            if (list.contains(arr[i])) continue;
-            list.add(arr[i]);
+            int temp = perList.remove(i);
+            list.add(temp);
             permutation(list, count - 1); // 뽑을 때 마다 count - 1;
             list.remove(list.size() - 1); // 재귀 위해서 마지막에 넣은 원소 제거;
+            perList.add(i, temp);
         }
     }
 
