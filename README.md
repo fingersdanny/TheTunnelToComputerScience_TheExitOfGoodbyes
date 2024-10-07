@@ -4,7 +4,7 @@
 
 # 목차
 
-1. [알고리즘]()
+1. [알고리즘](https://github.com/fingersdanny/TheTunnelToComputerScience_TheExitOfGoodbyes/tree/main/1_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98)
 2. [디자인 패턴]()
 
 ## 참고자료
