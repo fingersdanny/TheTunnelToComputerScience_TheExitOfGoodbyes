@@ -5,7 +5,7 @@
 # 목차
 
 1. [알고리즘](https://github.com/fingersdanny/TheTunnelToComputerScience_TheExitOfGoodbyes/tree/main/1_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98)
-2. [디자인 패턴]()
+2. [디자인 패턴](https://github.com/fingersdanny/TheTunnelToComputerScience_TheExitOfGoodbyes/tree/main/2_%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4/%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4)
 
 ## 참고자료
 - [면접을 위한 CS 전공지식 노트](https://m.yes24.com/Goods/Detail/108887922)
